@@ -2,8 +2,10 @@ FastAPI
 numpy
 pandas
 matplotlib
+seaborn
 scikit-learn
 uvicorn 
+gunicorn
 pydantic
 jinja2
 python-multipart
