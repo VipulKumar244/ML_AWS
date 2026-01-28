@@ -1,15 +1,15 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Field,conint,confloat
 from fastapi import Form
 class feature_attributes(BaseModel):
-    Temperature:int
-    RH:int
-    Ws:int
-    Rain:float
-    FFMC:float
-    DMC:float
-    ISI:float
-    Classes:float
-    Region:float
+    Temperature:conint(ge=-50,le=60)
+    RH:conint(ge=0,le=100)
+    Ws:conint(ge=0,le=50)
+    Rain:confloat(ge=0)
+    FFMC:confloat(ge=0)
+    DMC:confloat(ge=0)
+    ISI:confloat(ge=0)
+    Classes:conint(ge=0,le=1)
+    Region:conint(ge=1,le=2)
 
 
 
@@ -23,8 +23,8 @@ class feature_attributes(BaseModel):
             FFMC:float=Form(...),
             DMC:float=Form(...),
             ISI:float=Form(...),
-            Classes:float=Form(...),
-            Region:float=Form(...)
+            Classes:int=Form(...),
+            Region:int=Form(...)
 
     ):
         return cls(

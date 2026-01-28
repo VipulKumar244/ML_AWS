@@ -1,30 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>FWI Prediction</title>
+    <meta charset="UTF-8">
+    <title>FWI Prediction Dashboard</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        .dashboard-container {
+            max-width: 850px;
+            margin: 40px auto;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+        }
+        .btn-predict {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="login">
-        <h1>FWI Prediction</h1>
 
-        <!-- Form for sending prediction inputs to FastAPI -->
-        <form action="/predictdata" method="post">
-            <input type="text" name="Temperature" placeholder="Temperature" required><br>
-            <input type="text" name="RH" placeholder="RH" required><br>
-            <input type="text" name="Ws" placeholder="Ws" required><br>
-            <input type="text" name="Rain" placeholder="Rain" required><br>
-            <input type="text" name="FFMC" placeholder="FFMC" required><br>
-            <input type="text" name="DMC" placeholder="DMC" required><br>
-            <input type="text" name="ISI" placeholder="ISI" required><br>
-            <input type="text" name="Classes" placeholder="Classes" required><br>
-            <input type="text" name="Region" placeholder="Region" required><br>
+<div class="dashboard-container">
 
-            <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-        </form>
-
-        <h2>
-            THE FWI prediction is {{ result }}
-        </h2>
+    <!-- Title Card -->
+    <div class="card mb-4 p-4 text-center">
+        <h1 class="fw-bold">🔥 FWI Prediction Dashboard</h1>
+        <p class="text-muted">Enter environmental parameters to predict Forest Fire Index</p>
     </div>
+
+    <!-- ERROR ALERT -->
+    {% if error %}
+    <div class="alert alert-danger text-center">
+        ⚠ Invalid input detected — please check your values.
+    </div>
+    {% endif %}
+
+    <!-- Input Form Card -->
+    <div class="card p-4">
+        <h4 class="mb-3">Enter Input Features</h4>
+
+        <form action="/predictdata" method="post" class="row g-3">
+
+            {% set invalid = 'is-invalid' if error else '' %}
+
+            <div class="col-md-4">
+                <label class="form-label">Temperature</label>
+                <input type="text" name="Temperature" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">RH</label>
+                <input type="text" name="RH" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Wind Speed (Ws)</label>
+                <input type="text" name="Ws" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Rain</label>
+                <input type="text" name="Rain" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">FFMC</label>
+                <input type="text" name="FFMC" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">DMC</label>
+                <input type="text" name="DMC" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">ISI</label>
+                <input type="text" name="ISI" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Classes</label>
+                <input type="text" name="Classes" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Region</label>
+                <input type="text" name="Region" class="form-control {{ invalid }}" required>
+            </div>
+
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-primary btn-predict">
+                    Predict FWI
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Prediction Card -->
+    {% if result is not none %}
+    <div class="card p-4 mt-4 text-center">
+        <h3 class="fw-bold">🌲 Predicted FWI:</h3>
+        <p class="display-6 text-success">{{ result }}</p>
+    </div>
+    {% endif %}
+
+</div>
+
 </body>
 </html>
