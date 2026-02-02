@@ -9,7 +9,7 @@ class feature_attributes(BaseModel):
     DMC:confloat(ge=0)
     ISI:confloat(ge=0)
     Classes:conint(ge=0,le=1)
-    Region:conint(ge=1,le=2)
+    Region:conint(ge=0,le=1)
 
 
 
